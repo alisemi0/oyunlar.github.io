@@ -3,62 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Block Speed - Ana Menü</title>
+    <title>Block Speed - Hikaye Modu</title>
     <style>
         * { box-sizing: border-box; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; padding: 0; background-color: #050208; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        
-        /* Dinamik Siber-Uzay Arka Planı */
-        .bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, #2a0b4e 0%, #050208 80%); z-index: 1; }
-        .grid-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 243, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.08) 1px, transparent 1px); background-size: 50px 50px; transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px); opacity: 0.6; z-index: 2; animation: moveGrid 10s linear infinite; }
-        @keyframes moveGrid { 0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); } 100% { transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-200px); } }
-        
-        .orb { position: absolute; border-radius: 50%; filter: blur(20px); z-index: 3; animation: floatUp 8s infinite ease-in-out alternate; }
-        .orb1 { width: 120px; height: 120px; background: rgba(0, 243, 255, 0.25); left: 5%; bottom: 15%; animation-duration: 7s; }
-        .orb2 { width: 180px; height: 180px; background: rgba(255, 0, 234, 0.2); right: 10%; top: 20%; animation-duration: 10s; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-40px) scale(1.1); } }
+        body { margin: 0; padding: 0; background-color: #0d0614; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; touch-action: none; display: flex; flex-direction: column; align-items: center; height: 100vh; }
 
-        /* Modern Menü Kutusu */
-        .menu-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 90%; max-width: 400px; padding: 40px 20px; background: rgba(15, 5, 25, 0.6); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 30px; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(0, 243, 255, 0.05); }
+        .bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, #3a0d15 0%, #0d0614 80%); z-index: 1; }
+        .grid-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(255, 145, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 145, 0, 0.05) 1px, transparent 1px); background-size: 40px 40px; transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px); opacity: 0.4; z-index: 2; animation: moveGrid 15s linear infinite; }
+        @keyframes moveGrid { 0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); } 100% { transform: perspective(500px) rotateX(60deg) translateY(40px) translateZ(-200px); } }
+
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(13, 6, 20, 0.90); backdrop-filter: blur(15px); z-index: 2000; transition: opacity 0.4s ease; }
+        .hidden { opacity: 0; pointer-events: none; display: none !important; }
         
-        .logo-text { font-size: 3.5rem; font-weight: 900; color: #fff; text-shadow: 0 4px 30px rgba(0, 243, 255, 0.8); margin-bottom: 40px; text-align: center; line-height: 1; letter-spacing: 2px; }
-        .logo-sub { font-size: 1.2rem; color: #ff00ea; text-shadow: 0 0 15px #ff00ea; display: block; letter-spacing: 8px; margin-top: 5px; }
+        .logo-text { font-size: 3.5rem; font-weight: 900; color: #fff; text-shadow: 0 4px 20px rgba(255, 145, 0, 0.5); margin-bottom: 20px; text-align: center; line-height: 1.1; letter-spacing: 2px; }
+        .logo-sub { font-size: 1rem; color: #ffea00; text-shadow: 0 0 10px #ffea00; display: block; letter-spacing: 6px; margin-top: 5px;}
         
-        .btn-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
-        .btn-main { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 18px; font-size: 1.1rem; font-weight: 800; color: #fff; cursor: pointer; transition: all 0.2s cubic-bezier(0.2, 1, 0.3, 1); letter-spacing: 1px; display: flex; justify-content: center; align-items: center;}
-        .btn-main:active { transform: scale(0.95); }
-        .btn-highlight { background: linear-gradient(135deg, rgba(0, 243, 255, 0.8), rgba(0, 136, 255, 0.8)); border-color: transparent; box-shadow: 0 10px 20px rgba(0, 243, 255, 0.3); }
-        .btn-story { background: linear-gradient(135deg, rgba(255, 234, 0, 0.8), rgba(255, 145, 0, 0.8)); color: #111; border-color: transparent; box-shadow: 0 10px 20px rgba(255, 145, 0, 0.3); }
-        .hidden { display: none !important; }
+        /* Modal Kutusu */
+        .modal-box { background: linear-gradient(135deg, rgba(25, 10, 15, 0.95), rgba(15, 5, 10, 0.95)); border: 1px solid rgba(255, 145, 0, 0.2); border-radius: 30px; padding: 40px 30px; width: 90%; max-width: 350px; box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255, 145, 0, 0.05); display: flex; flex-direction: column; align-items: center; transform: scale(0.9); opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .screen:not(.hidden) .modal-box { transform: scale(1); opacity: 1; }
+
+        .level-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; z-index: 10; }
+        .level-btn { width: 75px; height: 75px; border-radius: 16px; font-size: 1.8rem; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s cubic-bezier(0.2, 1, 0.3, 1); background: rgba(255, 145, 0, 0.1); border: 2px solid rgba(255, 145, 0, 0.5); color: #fff; box-shadow: 0 5px 15px rgba(255, 145, 0, 0.2); }
+        .level-btn:active { transform: scale(0.9); }
+        .level-btn.locked { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.2); pointer-events: none; box-shadow: none; }
+        .level-btn.completed { background: rgba(0, 230, 118, 0.15); border-color: rgba(0, 230, 118, 0.6); color: #00e676; text-shadow: 0 0 10px #00e676; }
+
+        .btn-group { display: flex; flex-direction: column; gap: 15px; width: 100%; z-index: 10; }
+        .btn-main { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px; font-size: 1.1rem; font-weight: bold; color: #fff; cursor: pointer; transition: all 0.2s ease; backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; letter-spacing: 1px;}
+        .btn-main:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg, #ffea00, #ff9100); color: #000; border: none; box-shadow: 0 10px 20px rgba(255, 145, 0, 0.3); }
+
+        #game-ui { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; z-index: 10; position: relative;}
+        
+        #mission-panel { width: 100%; max-width: 450px; background: rgba(20, 5, 5, 0.6); padding: 15px 25px; border-bottom: 1px solid rgba(255, 145, 0, 0.3); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 2vh; backdrop-filter: blur(10px); }
+        .level-badge { font-size: 1.2rem; font-weight: 900; color: #fff; display: flex; flex-direction: column; }
+        .level-badge span { font-size: 0.8rem; color: #ff9100; letter-spacing: 2px; }
+        .mission-progress { font-size: 1.8rem; color: #ffea00; font-weight: 900; text-shadow: 0 0 15px #ffea00;}
+        .mission-progress span.target { color: #aaa; font-size: 1.2rem; text-shadow: none; }
+
+        .btn-pause { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; transition: background 0.2s, transform 0.1s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .btn-pause:active { transform: scale(0.9); }
+
+        #grid-container { position: relative; background-color: rgba(30, 10, 15, 0.6); padding: 6px; border-radius: 16px; border: 1px solid rgba(255, 145, 0, 0.2); box-shadow: inset 0 5px 20px rgba(0, 0, 0, 0.8), 0 20px 40px rgba(0,0,0,0.5); }
+        #grid { display: grid; gap: 3px; }
+        .grid-cell { background-color: rgba(45, 20, 25, 0.8); border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); transition: background-color 0.2s; }
+        .glass-block { border-radius: 6px; border: 1px solid rgba(255,255,255,0.4); border-bottom: 3px solid rgba(0,0,0,0.4); border-right: 2px solid rgba(0,0,0,0.3); background-image: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 40%, rgba(0,0,0,0.1) 100%); box-shadow: inset 0 2px 5px rgba(255,255,255,0.4); }
+        
+        #spawn-area { display: flex; justify-content: space-evenly; align-items: center; width: 100%; max-width: 450px; margin-top: auto; margin-bottom: 5vh; height: 120px; }
+        .shape-container { width: 30%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+        .draggable-shape { position: absolute; cursor: pointer; will-change: transform; transform: translate3d(0,0,0) scale(0.55); transition: transform 0.05s cubic-bezier(0.2, 1, 0.3, 1); }
+        .draggable-shape::after { content: ''; position: absolute; top: -80px; bottom: -80px; left: -80px; right: -80px; z-index: 1; }
+        .draggable-shape.dragging { transition: none !important; z-index: 1000; opacity: 0.95; filter: none !important; }
+        .draggable-shape.dragging .glass-block { box-shadow: none !important; border: 2px solid #fff; } 
+        
+        .draggable-shape.returning { transition: transform 0.2s ease-out !important; }
+        .shape-block { position: absolute; z-index: 2; pointer-events: none; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+        .shake { animation: shake 0.2s ease-in-out; }
+        #fx-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
     </style>
 </head>
 <body>
     <div class="bg-layer"></div>
     <div class="grid-bg"></div>
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
+    <canvas id="fx-canvas"></canvas>
 
-    <div class="menu-container" id="main-menu">
-        <div class="logo-text">BLOCK<span class="logo-sub">SPEED</span></div>
-        <div class="btn-group">
-            <button id="btn-continue" class="btn-main btn-highlight hidden" onclick="launchGame('continue')">KALDIĞIN YERDEN DEVAM ET</button>
-            <button class="btn-main" onclick="launchGame('new')">KLASİK MOD</button>
-            <button class="btn-main btn-story" onclick="window.location.href='story.html'">HİKAYE MODU</button>
+    <!-- GÖREV SEÇİM MENÜSÜ -->
+    <div id="level-select-screen" class="screen">
+        <div class="logo-text">SEFER MODU<span class="logo-sub">GÖREV SEÇİMİ</span></div>
+        <div id="level-grid" class="level-grid"></div>
+        <div class="btn-group" style="width: 250px;">
+            <button class="btn-main" onclick="window.location.href='index.html'">ANA MENÜYE DÖN</button>
+        </div>
+    </div>
+
+    <!-- DURAKLATMA MENÜSÜ -->
+    <div id="pause-menu" class="screen hidden" style="background: rgba(13, 6, 20, 0.85);">
+        <div class="modal-box">
+            <div class="logo-text" style="font-size: 2.2rem; margin-bottom: 30px;">DURAKLATILDI</div>
+            <div class="btn-group">
+                <button class="btn-main btn-primary" onclick="togglePause()">GÖREVE DÖN</button>
+                <button class="btn-main" onclick="startLevel(GameState.currentLevel)">GÖREVİ BAŞA SAR</button>
+                <button class="btn-main" style="color:#ffea00; border-color:rgba(255, 234, 0, 0.3);" onclick="exitToMissionSelect()">GÖREV SEÇİMİ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEVİYE BAŞARILI EKRANI -->
+    <div id="level-complete" class="screen hidden">
+        <div class="modal-box" style="border-color: rgba(0, 230, 118, 0.5); box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(0, 230, 118, 0.1);">
+            <div class="logo-text" style="font-size: 2.2rem; color: #00e676; text-shadow: 0 0 20px rgba(0, 230, 118, 0.5); margin-bottom: 30px;">BAŞARILI!</div>
+            <div class="btn-group">
+                <button class="btn-main btn-primary" style="background: linear-gradient(135deg, #00e676, #00b0ff);" id="btn-next-level" onclick="nextLevel()">SONRAKİ GÖREV</button>
+                <button class="btn-main" onclick="exitToMissionSelect()">GÖREV SEÇİMİ</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- GAME OVER EKRANI -->
+    <div id="game-over-screen" class="screen hidden">
+        <div class="modal-box" style="border-color: rgba(245, 0, 87, 0.5); box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(245, 0, 87, 0.1);">
+            <div class="logo-text" style="font-size: 2.2rem; color: #f50057; text-shadow: 0 0 20px rgba(245, 0, 87, 0.5); margin-bottom: 30px;">BAŞARISIZ</div>
+            <div class="btn-group">
+                <button class="btn-main btn-primary" style="background: linear-gradient(135deg, #f50057, #ff9100);" onclick="startLevel(GameState.currentLevel)">TEKRAR DENE</button>
+                <button class="btn-main" onclick="exitToMissionSelect()">GÖREV SEÇİMİ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUN ARAYÜZÜ -->
+    <div id="game-ui" class="hidden">
+        <div id="mission-panel">
+            <div class="level-badge">
+                <span>GÖREV</span>
+                <span id="ui-level" style="font-size:1.8rem; color:#fff;">1</span>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-size:0.8rem; color:#aaa; font-weight:bold; letter-spacing:1px;">HEDEF SATIR</span><br>
+                <div class="mission-progress"><span id="ui-cleared">0</span> <span class="target">/ <span id="ui-target">5</span></span></div>
+            </div>
+            <button class="btn-pause" onclick="togglePause()">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+            </button>
+        </div>
+        <div id="grid-container"><div id="grid"></div></div>
+        <div id="spawn-area">
+            <div class="shape-container" id="spawn-0"></div>
+            <div class="shape-container" id="spawn-1"></div>
+            <div class="shape-container" id="spawn-2"></div>
         </div>
     </div>
 
     <script>
-        window.onload = () => {
-            const savedData = localStorage.getItem('BlockSpeedSaveState');
-            if (savedData) {
-                document.getElementById('btn-continue').classList.remove('hidden');
+        const screenWidth = window.innerWidth;
+        const GRID_SIZE = 8;
+        const CELL_GAP = 3;
+        let CELL_SIZE = Math.floor((Math.min(screenWidth * 0.92, 420) - (GRID_SIZE * CELL_GAP)) / GRID_SIZE);
+        let STRIDE = CELL_SIZE + CELL_GAP;
+
+        let GLOBAL_GRID_RECT = null;
+        window.addEventListener('resize', () => {
+            if(document.getElementById('grid-container')) {
+                GLOBAL_GRID_RECT = document.getElementById('grid-container').getBoundingClientRect();
             }
+        });
+
+        const TOTAL_LEVELS = 6;
+        const LEVELS = {
+            1: { targetLines: 3, allowedShapes: ['1x1', 'I2', 'L'] },
+            2: { targetLines: 5, allowedShapes: ['1x1', 'I2', 'I3', 'L', 'Sq2'] },
+            3: { targetLines: 10, allowedShapes: ['I2', 'I3', 'I4', 'L', 'L-Rev', 'Sq2', 'T'] },
+            4: { targetLines: 15, allowedShapes: ['I3', 'I4', 'L', 'L-Rev', 'Sq2', 'Sq3', 'T'] },
+            5: { targetLines: 20, allowedShapes: ['I4', 'L-Rev', 'Sq3', 'T'] },
+            6: { targetLines: 30, allowedShapes: ['I4', 'Sq3', 'T', 'L'] } 
         };
 
-        // Parametre kaybetmemek için LocalStorage bayrağı kullanıyoruz
-        function launchGame(action) {
-            localStorage.setItem('BlockSpeed_Action', action);
-            window.location.href = 'sonsuz.html';
+        const GameState = { currentLevel: 1, maxUnlocked: 1, linesCleared: 0, target: 0, grid: [], isPaused: false };
+
+        const COLORS = { cyan: '#00e5ff', magenta: '#f50057', yellow: '#ffea00', green: '#00e676', purple: '#d500f9', orange: '#ff9100' };
+        const SHAPE_DB = {
+            '1x1': { color: COLORS.cyan, matrix: [[1]] }, 'I2': { color: COLORS.magenta, matrix: [[1,1]] },
+            'I3': { color: COLORS.green, matrix: [[1,1,1]] }, 'I4': { color: COLORS.orange, matrix: [[1,1,1,1]] },
+            'L': { color: COLORS.purple, matrix: [[1,0],[1,1]] }, 'L-Rev': { color: COLORS.purple, matrix: [[0,1],[1,1]] },
+            'Sq2': { color: COLORS.yellow, matrix: [[1,1],[1,1]] }, 'Sq3': { color: COLORS.cyan, matrix: [[1,1,1],[1,1,1],[1,1,1]] },
+            'T': { color: COLORS.magenta, matrix: [[1,1,1],[0,1,0]] }
+        };
+
+        window.onload = () => { 
+            initGrid(); 
+            initParticles(); 
+            GameState.maxUnlocked = parseInt(localStorage.getItem('BlockSpeedMaxStoryLevel')) || 1;
+            buildLevelSelect();
+        };
+
+        function buildLevelSelect() {
+            const gridEl = document.getElementById('level-grid'); gridEl.innerHTML = '';
+            for (let i = 1; i <= TOTAL_LEVELS; i++) {
+                const btn = document.createElement('div'); btn.className = 'level-btn'; btn.innerText = i;
+                if (i < GameState.maxUnlocked) { btn.classList.add('completed'); btn.onclick = () => startLevel(i); } 
+                else if (i === GameState.maxUnlocked) { btn.onclick = () => startLevel(i); } 
+                else { btn.classList.add('locked'); btn.innerHTML = '🔒'; }
+                gridEl.appendChild(btn);
+            }
+        }
+
+        function exitToMissionSelect() {
+            buildLevelSelect();
+            document.getElementById('pause-menu').classList.add('hidden');
+            document.getElementById('game-over-screen').classList.add('hidden');
+            document.getElementById('level-complete').classList.add('hidden');
+            document.getElementById('game-ui').classList.add('hidden');
+            document.getElementById('level-select-screen').classList.remove('hidden');
+        }
+
+        function togglePause() {
+            if(!document.getElementById('game-over-screen').classList.contains('hidden')) return; 
+            if(!document.getElementById('level-complete').classList.contains('hidden')) return;
+            GameState.isPaused = !GameState.isPaused;
+            const pauseMenu = document.getElementById('pause-menu');
+            if (GameState.isPaused) pauseMenu.classList.remove('hidden'); else pauseMenu.classList.add('hidden');
+        }
+
+        function startLevel(levelNum) {
+            GameState.currentLevel = levelNum; GameState.linesCleared = 0; GameState.target = LEVELS[levelNum].targetLines; GameState.isPaused = false;
+            document.getElementById('ui-level').innerText = levelNum; updateMissionUI();
+            resetGrid();
+            for (let i = 0; i < 3; i++) document.getElementById(`spawn-${i}`).innerHTML = '';
+            spawnShapes();
+            
+            document.getElementById('level-select-screen').classList.add('hidden');
+            document.getElementById('pause-menu').classList.add('hidden');
+            document.getElementById('level-complete').classList.add('hidden');
+            document.getElementById('game-over-screen').classList.add('hidden');
+            document.getElementById('game-ui').classList.remove('hidden');
+
+            setTimeout(() => { GLOBAL_GRID_RECT = document.getElementById('grid-container').getBoundingClientRect(); }, 100);
+        }
+
+        function nextLevel() {
+            if (GameState.currentLevel < TOTAL_LEVELS) startLevel(GameState.currentLevel + 1);
+            else exitToMissionSelect();
+        }
+
+        function updateMissionUI() {
+            document.getElementById('ui-cleared').innerText = GameState.linesCleared;
+            document.getElementById('ui-target').innerText = GameState.target;
+        }
+
+        function initGrid() {
+            const gridEl = document.getElementById('grid');
+            gridEl.style.gridTemplateColumns = `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`; gridEl.style.gridTemplateRows = `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`;
+            for (let r = 0; r < GRID_SIZE; r++) {
+                GameState.grid[r] = [];
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    const cell = document.createElement('div'); cell.className = 'grid-cell'; cell.style.width = `${CELL_SIZE}px`; cell.style.height = `${CELL_SIZE}px`;
+                    gridEl.appendChild(cell); GameState.grid[r][c] = { el: cell, filled: false, color: null };
+                }
+            }
+        }
+
+        function resetGrid() {
+            for (let r = 0; r < GRID_SIZE; r++) {
+                for (let c = 0; c < GRID_SIZE; c++) {
+                    const cell = GameState.grid[r][c]; cell.filled = false; cell.color = null;
+                    cell.el.className = 'grid-cell'; cell.el.style.backgroundColor = '';
+                }
+            }
+        }
+
+        function getLevelShape() {
+            const allowed = LEVELS[GameState.currentLevel].allowedShapes;
+            return SHAPE_DB[allowed[Math.floor(Math.random() * allowed.length)]];
+        }
+
+        function spawnShapes() {
+            for (let i = 0; i < 3; i++) {
+                const container = document.getElementById(`spawn-${i}`);
+                if (container.children.length === 0) createShapeDom(container, getLevelShape());
+            }
+            setTimeout(checkGameOver, 150);
+        }
+
+        function createShapeDom(container, shapeData) {
+            const wrapper = document.createElement('div'); wrapper.className = 'draggable-shape';
+            wrapper.dataset.matrix = JSON.stringify(shapeData.matrix); wrapper.dataset.color = shapeData.color;
+            let w = shapeData.matrix[0].length * STRIDE - CELL_GAP; let h = shapeData.matrix.length * STRIDE - CELL_GAP;
+            wrapper.style.width = `${w}px`; wrapper.style.height = `${h}px`;
+            shapeData.matrix.forEach((row, r) => {
+                row.forEach((val, c) => {
+                    if (val === 1) {
+                        const block = document.createElement('div'); block.className = 'shape-block glass-block';
+                        block.style.width = `${CELL_SIZE}px`; block.style.height = `${CELL_SIZE}px`;
+                        block.style.left = `${c * STRIDE}px`; block.style.top = `${r * STRIDE}px`;
+                        block.style.backgroundColor = shapeData.color; wrapper.appendChild(block);
+                    }
+                });
+            });
+            setupDragEvents(wrapper, container); container.appendChild(wrapper);
+        }
+
+        function setupDragEvents(el, container) {
+            let isDragging = false, isReturning = false, startX, startY, currentX = 0, currentY = 0;
+            const touchOffsetY = -90; let animationFrameId = null;
+
+            el.addEventListener('touchstart', dragStart, { passive: false }); el.addEventListener('mousedown', dragStart);
+
+            function dragStart(e) {
+                if (isReturning || GameState.isPaused) return; e.preventDefault(); isDragging = true;
+                el.classList.remove('returning'); el.classList.add('dragging');
+                const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                startX = clientX; startY = clientY; currentX = 0; currentY = touchOffsetY;
+                updateTransform();
+                document.addEventListener('touchmove', dragMove, { passive: false }); document.addEventListener('mousemove', dragMove);
+                document.addEventListener('touchend', dragEnd); document.addEventListener('mouseup', dragEnd);
+            }
+            function dragMove(e) {
+                if (!isDragging || GameState.isPaused) return; e.preventDefault();
+                const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+                currentX = clientX - startX; currentY = (clientY - startY) + touchOffsetY;
+                if (!animationFrameId) animationFrameId = requestAnimationFrame(updateTransform);
+            }
+            function updateTransform() { el.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(1)`; animationFrameId = null; }
+            function dragEnd() {
+                if (!isDragging) return; isDragging = false; el.classList.remove('dragging');
+                if (animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = null;
+                document.removeEventListener('touchmove', dragMove); document.removeEventListener('mousemove', dragMove);
+                document.removeEventListener('touchend', dragEnd); document.removeEventListener('mouseup', dragEnd);
+                
+                if(GameState.isPaused) return;
+
+                const shapeRect = el.getBoundingClientRect();
+                const relativeX = shapeRect.left - GLOBAL_GRID_RECT.left - 5; 
+                const relativeY = shapeRect.top - GLOBAL_GRID_RECT.top - 5;
+                const gridCol = Math.round(relativeX / STRIDE); const gridRow = Math.round(relativeY / STRIDE);
+                const matrix = JSON.parse(el.dataset.matrix);
+                
+                if (canPlace(matrix, gridRow, gridCol)) {
+                    placeShape(matrix, gridRow, gridCol, el.dataset.color); el.remove();
+                    if (document.querySelectorAll('#spawn-area .draggable-shape').length === 0) spawnShapes();
+                    else { checkGameOver(); }
+                } else {
+                    isReturning = true; el.classList.add('returning'); el.style.transform = `translate3d(0,0,0) scale(0.55)`; 
+                    setTimeout(() => { isReturning = false; currentX = 0; currentY = 0; }, 200);
+                }
+            }
+        }
+
+        function canPlace(matrix, startR, startC) {
+            for (let r = 0; r < matrix.length; r++) {
+                for (let c = 0; c < matrix[r].length; c++) {
+                    if (matrix[r][c] === 1) {
+                        if (startR + r < 0 || startR + r >= GRID_SIZE || startC + c < 0 || startC + c >= GRID_SIZE) return false;
+                        if (GameState.grid[startR+r][startC+c].filled) return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function placeShape(matrix, startR, startC, color) {
+            for (let r = 0; r < matrix.length; r++) {
+                for (let c = 0; c < matrix[r].length; c++) {
+                    if (matrix[r][c] === 1) {
+                        const cellData = GameState.grid[startR + r][startC + c];
+                        cellData.filled = true; cellData.color = color;
+                        cellData.el.classList.add('filled', 'glass-block'); cellData.el.style.backgroundColor = color;
+                    }
+                }
+            }
+            checkAndClearLines();
+        }
+
+        function checkAndClearLines() {
+            let cellsToClear = []; let linesCleared = 0;
+            for (let r = 0; r < GRID_SIZE; r++) { if (GameState.grid[r].every(cell => cell.filled)) { linesCleared++; GameState.grid[r].forEach(cell => cellsToClear.push(cell)); } }
+            for (let c = 0; c < GRID_SIZE; c++) {
+                let colFull = true; for (let r = 0; r < GRID_SIZE; r++) { if (!GameState.grid[r][c].filled) colFull = false; }
+                if (colFull) { linesCleared++; for (let r = 0; r < GRID_SIZE; r++) cellsToClear.push(GameState.grid[r][c]); }
+            }
+
+            if (cellsToClear.length > 0) {
+                document.getElementById('grid-container').classList.add('shake'); setTimeout(() => document.getElementById('grid-container').classList.remove('shake'), 200);
+                [...new Set(cellsToClear)].forEach(cell => {
+                    const rect = cell.el.getBoundingClientRect(); createParticles(rect.left + CELL_SIZE/2, rect.top + CELL_SIZE/2, cell.color);
+                    cell.filled = false; cell.color = null; cell.el.className = 'grid-cell'; cell.el.style.backgroundColor = '';
+                });
+
+                GameState.linesCleared += linesCleared; updateMissionUI();
+
+                if (GameState.linesCleared >= GameState.target) {
+                    if (GameState.currentLevel >= GameState.maxUnlocked && GameState.currentLevel < TOTAL_LEVELS) {
+                        GameState.maxUnlocked = GameState.currentLevel + 1;
+                        localStorage.setItem('BlockSpeedMaxStoryLevel', GameState.maxUnlocked);
+                    }
+                    if (GameState.currentLevel === TOTAL_LEVELS) document.getElementById('btn-next-level').classList.add('hidden');
+                    else document.getElementById('btn-next-level').classList.remove('hidden');
+                    setTimeout(() => { document.getElementById('game-ui').classList.add('hidden'); document.getElementById('level-complete').classList.remove('hidden'); }, 500); 
+                }
+            }
+        }
+
+        function checkGameOver() {
+            if (GameState.linesCleared >= GameState.target) return; 
+            const shapes = document.querySelectorAll('.draggable-shape'); if (shapes.length === 0) return;
+            let canPlaceAny = false;
+            shapes.forEach(shapeElem => {
+                if (canPlaceAny) return; const matrix = JSON.parse(shapeElem.dataset.matrix);
+                for (let r = 0; r <= GRID_SIZE - matrix.length; r++) {
+                    for (let c = 0; c <= GRID_SIZE - matrix[0].length; c++) { if (canPlace(matrix, r, c)) { canPlaceAny = true; return; } }
+                }
+            });
+            if (!canPlaceAny) { setTimeout(() => { document.getElementById('game-ui').classList.add('hidden'); document.getElementById('game-over-screen').classList.remove('hidden'); }, 600); }
+        }
+
+        const canvas = document.getElementById('fx-canvas'); const ctx = canvas.getContext('2d'); let particles = [];
+        function initParticles() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; requestAnimationFrame(renderParticles); }
+        function createParticles(x, y, color) { for (let i = 0; i < 6; i++) { particles.push({ x: x, y: y, vx: (Math.random() - 0.5) * 12, vy: (Math.random() - 0.5) * 12, life: 1.0, color: color }); } }
+        function renderParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (GameState.isPaused) { requestAnimationFrame(renderParticles); return; }
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i]; p.x += p.vx; p.y += p.vy; p.life -= 0.04;
+                if (p.life <= 0) { particles.splice(i, 1); continue; }
+                ctx.globalAlpha = p.life; ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.globalAlpha = 1; requestAnimationFrame(renderParticles);
         }
     </script>
 </body>
