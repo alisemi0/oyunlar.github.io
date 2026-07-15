@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Block Speed - Ana Menü</title>
+    <style>
+        * { box-sizing: border-box; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; padding: 0; background-color: #050208; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* Dinamik Siber-Uzay Arka Planı */
+        .bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, #2a0b4e 0%, #050208 80%); z-index: 1; }
+        .grid-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 243, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.08) 1px, transparent 1px); background-size: 50px 50px; transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px); opacity: 0.6; z-index: 2; animation: moveGrid 10s linear infinite; }
+        @keyframes moveGrid { 0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); } 100% { transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-200px); } }
+        
+        .orb { position: absolute; border-radius: 50%; filter: blur(20px); z-index: 3; animation: floatUp 8s infinite ease-in-out alternate; }
+        .orb1 { width: 120px; height: 120px; background: rgba(0, 243, 255, 0.25); left: 5%; bottom: 15%; animation-duration: 7s; }
+        .orb2 { width: 180px; height: 180px; background: rgba(255, 0, 234, 0.2); right: 10%; top: 20%; animation-duration: 10s; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-40px) scale(1.1); } }
+
+        /* Modern Menü Kutusu */
+        .menu-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 90%; max-width: 400px; padding: 40px 20px; background: rgba(15, 5, 25, 0.6); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 30px; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(0, 243, 255, 0.05); }
+        
+        .logo-text { font-size: 3.5rem; font-weight: 900; color: #fff; text-shadow: 0 4px 30px rgba(0, 243, 255, 0.8); margin-bottom: 40px; text-align: center; line-height: 1; letter-spacing: 2px; }
+        .logo-sub { font-size: 1.2rem; color: #ff00ea; text-shadow: 0 0 15px #ff00ea; display: block; letter-spacing: 8px; margin-top: 5px; }
+        
+        .btn-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+        .btn-main { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 18px; font-size: 1.1rem; font-weight: 800; color: #fff; cursor: pointer; transition: all 0.2s cubic-bezier(0.2, 1, 0.3, 1); letter-spacing: 1px; display: flex; justify-content: center; align-items: center;}
+        .btn-main:active { transform: scale(0.95); }
+        .btn-highlight { background: linear-gradient(135deg, rgba(0, 243, 255, 0.8), rgba(0, 136, 255, 0.8)); border-color: transparent; box-shadow: 0 10px 20px rgba(0, 243, 255, 0.3); }
+        .btn-story { background: linear-gradient(135deg, rgba(255, 234, 0, 0.8), rgba(255, 145, 0, 0.8)); color: #111; border-color: transparent; box-shadow: 0 10px 20px rgba(255, 145, 0, 0.3); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="bg-layer"></div>
+    <div class="grid-bg"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <div class="menu-container" id="main-menu">
+        <div class="logo-text">BLOCK<span class="logo-sub">SPEED</span></div>
+        <div class="btn-group">
+            <button id="btn-continue" class="btn-main btn-highlight hidden" onclick="launchGame('continue')">KALDIĞIN YERDEN DEVAM ET</button>
+            <button class="btn-main" onclick="launchGame('new')">KLASİK MOD</button>
+            <button class="btn-main btn-story" onclick="window.location.href='story.html'">HİKAYE MODU</button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = () => {
+            const savedData = localStorage.getItem('BlockSpeedSaveState');
+            if (savedData) {
+                document.getElementById('btn-continue').classList.remove('hidden');
+            }
+        };
+
+        // Parametre kaybetmemek için LocalStorage bayrağı kullanıyoruz
+        function launchGame(action) {
+            localStorage.setItem('BlockSpeed_Action', action);
+            window.location.href = 'sonsuz.html';
+        }
+    </script>
+</body>
+</html>
